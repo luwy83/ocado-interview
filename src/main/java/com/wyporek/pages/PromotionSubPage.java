@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class PromotionSubPage {
 
@@ -24,8 +25,9 @@ public class PromotionSubPage {
     public void addFirstNProducts(int n) {
         try {
             addButtons.subList(0, n).forEach(WebElement::click);
-        } catch (Exception e) {
-            throw new NoSuchDataException("There are not enough products to choose from.");
+        } catch (IndexOutOfBoundsException e) {
+            // if there are not enough products to choose from, add the first one n times
+            IntStream.range(0, n + 1).forEach(i -> { addButtons.get(0).click(); });
         }
     }
 
